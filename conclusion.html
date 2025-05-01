@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conclusion - Corrélation n'est pas causalité</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <main class="conclusion">
+            <h1>Conclusion</h1>
+            
+            <div id="score-final" class="score-box"></div>
+
+            <div class="message">
+                <h2>Ce que cette activité nous apprend :</h2>
+                <ul>
+                    <li>Une corrélation entre deux variables A et B peut avoir plusieurs explications :</li>
+                    <ul>
+                        <li>A peut être la cause de B</li>
+                        <li>B peut être la cause de A</li>
+                        <li>Un facteur tiers peut influencer à la fois A et B</li>
+                        <li>La corrélation peut être due au hasard</li>
+                    </ul>
+                    <li>Il est souvent tentant de conclure trop rapidement à une relation de cause à effet.</li>
+                    <li>Dans la vie réelle, les relations de causalité sont souvent complexes et multifactorielles.</li>
+                    <li>Pour établir une causalité, il faut plus qu'une simple corrélation : des études contrôlées, des expériences, et une compréhension des mécanismes sous-jacents sont nécessaires.</li>
+                </ul>
+            </div>
+
+            <div class="actions">
+                <button onclick="location.href='index.html'" class="btn">Recommencer</button>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Récupérer le score depuis l'URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const score = urlParams.get('score');
+            const total = 10;
+
+            // Afficher le score
+            const scoreEl = document.getElementById('score-final');
+            const percentage = (score / total) * 100;
+            
+            let message;
+            if (percentage >= 80) {
+                message = "Excellent ! Vous avez bien compris les différentes relations possibles entre variables.";
+                scoreEl.classList.add('score-high');
+            } else if (percentage >= 60) {
+                message = "Bien ! Vous avez saisi les principes de base, mais certains cas plus subtils méritent encore réflexion.";
+                scoreEl.classList.add('score-medium');
+            } else {
+                message = "La distinction entre corrélation et causalité n'est pas toujours évidente. N'hésitez pas à réessayer !";
+                scoreEl.classList.add('score-low');
+            }
+
+            scoreEl.innerHTML = `
+                <div class="score-value">${score}/${total}</div>
+                <div class="score-message">${message}</div>
+            `;
+        });
+    </script>
+</body>
+</html>
