@@ -85,13 +85,17 @@ class CorrelationGame {
             button.classList.remove('selected');
         });
 
-        // Handle graph
+        // Reset graph if needed
         if (scenario.hasGraph) {
             this.graphSection.style.display = 'block';
+            this.resizeCanvas();
             this.drawGraph(scenario);
         } else {
             this.graphSection.style.display = 'none';
         }
+
+        // Scroll to score
+        this.scoreEl.parentElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     calculateRegressionLine(points) {
@@ -228,6 +232,9 @@ class CorrelationGame {
             this.nextBtn.classList.add('hidden');
             this.endBtn.classList.remove('hidden');
         }
+
+        // Scroll jusqu'au feedback
+        this.feedbackEl.scrollIntoView({ behavior: 'smooth', block: 'start' });        
     }
 
     nextScenario() {

@@ -10,7 +10,7 @@ const scenarios = [
         hasGraph: true,
         correctAnswer: ["facteur_tiers"],
         feedbacks: {
-            causalite_A_B: "Ce n'est pas la vente de glaces qui provoque des noyades même si on pourrait imaginer qu'on se sent plus lourd ?",
+            causalite_A_B: "Ce n'est pas la vente de glaces qui provoque des noyades même si on pourrait imaginer qu'on se sent plus lourd !",
             causalite_B_A: "Les noyades n'incitent pas à acheter des glaces !",
             facteur_tiers: "Correct !",
             hasard: "Ce n'est pas dû au hasard."
@@ -39,14 +39,14 @@ const scenarios = [
         id: 3,
         description: "On observe que plus une personne possède de livres chez elle (A), moins elle regarde la télévision (B).",
         hasGraph: false,
-        correctAnswer: ["facteur_tiers", "causalite_A_B"],
+        correctAnswer: ["facteur_tiers"],
         feedbacks: {
-            causalite_A_B: "Possible, mais insuffisant pour conclure. Les livres n'éteignent pas la télé.",
-            causalite_B_A: "Peu probable que regarder la télévision pousse à se débarrasser de ses livres.",
+            causalite_A_B: "Possible mais ce n'est pas l'explication la plus probable.",
+            causalite_B_A: "Possible mais ce n'est pas l'explication la plus probable.",
             facteur_tiers: "Correct !",
             hasard: "Ce n'est pas dû au hasard."
         },
-        feedback_general: "Le niveau d'éducation ou les habitudes culturelles familiales sont probablement à l'origine de cette corrélation. Des personnes éduquées ou issues de milieux favorisant la lecture auront à la fois plus de livres chez elles et moins tendance à regarder la télévision."
+        feedback_general: "On pourrait être tenté de penser qu'il y a un lien direct, dans un sens ou dans l'autre mais les facteurs de confusions possibles sont importants : le niveau d'éducation ou les habitudes familiales ou le milieu culturel peuvent expliquer simultanément les deux variables mieux qu'une causalité directe."
     },
     {
         id: 4,
