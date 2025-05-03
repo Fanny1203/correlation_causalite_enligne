@@ -14,31 +14,38 @@
                 <p id="description"></p>
                 <div id="graph-section" style="display: none;">
                     <div id="graph-container">
-                        <canvas id="graph"></canvas>
-                    </div>
-                    <div class="graph-controls">
                         <label class="checkbox-control">
                             <input type="checkbox" id="show-regression">
                             Afficher la droite de régression
                             <span class="info-icon" data-tooltip="regression_line">ⓘ</span>
                         </label>
+                        <canvas id="graph"></canvas>
                     </div>
                 </div>
+                <div id="source" class="source-info"></div>
             </div>
 
             <p>Qu'en pensez-vous ?</p>
             <div id="choices">
-                <button class="choice-btn" data-value="causalite_A_B">A cause B</button>
-                <button class="choice-btn" data-value="causalite_B_A">B cause A</button>
-                <button class="choice-btn" data-value="facteur_tiers">
-                    Facteur de confusion
+                <label class="radio-label">
+                    <input type="radio" name="answer" value="causalite_A_B"> A cause B
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="answer" value="causalite_B_A"> B cause A
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="answer" value="facteur_tiers"> Facteur de confusion
                     <span class="info-icon" data-tooltip="confounding_factor">ⓘ</span>
-                </button>
-                <button class="choice-btn" data-value="hasard">Hasard</button>
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="answer" value="hasard"> Hasard
+                </label>
+                <button id="validate" class="btn">Valider</button>
             </div>
 
             <div id="feedback" class="hidden"></div>
             <div id="feedback-general" class="hidden"></div>
+            
 
             <div id="controls">
                 <button id="next" class="btn hidden">Question suivante</button>

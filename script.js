@@ -19,7 +19,9 @@ class CorrelationGame {
         this.feedbackGeneralEl = document.getElementById('feedback-general');
         this.scoreEl = document.getElementById('score-value');
         this.showRegressionCheckbox = document.getElementById('show-regression');
-        this.choiceButtons = document.querySelectorAll('.choice-btn');
+        this.validateBtn = document.getElementById('validate');
+        this.radioInputs = document.querySelectorAll('input[name="answer"]');
+        this.sourceEl = document.getElementById('source');
         
         // Observer pour le redimensionnement du conteneur
         this.resizeObserver = new ResizeObserver(() => {
@@ -46,12 +48,12 @@ class CorrelationGame {
             }
         });
 
-        // Gestion des boutons de choix
-        this.choiceButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                // Valider immédiatement la réponse
-                this.validateAnswer(button);
-            });
+        // Gestion du bouton Valider
+        this.validateBtn.addEventListener('click', () => {
+            const selectedRadio = document.querySelector('input[name="answer"]:checked');
+            if (selectedRadio) {
+                this.validateAnswer(selectedRadio.value);
+            }
         });
     }
 
@@ -74,16 +76,17 @@ class CorrelationGame {
         
         // Reset UI state
         this.feedbackEl.classList.add('hidden');
-        this.feedbackEl.classList.remove('correct', 'incorrect'); // Retirer les classes ici aussi
+        this.feedbackEl.classList.remove('correct', 'incorrect');
         this.feedbackGeneralEl.classList.add('hidden');
         this.nextBtn.classList.add('hidden');
         this.endBtn.classList.add('hidden');
         
-        // Reset buttons
-        this.choiceButtons.forEach(button => {
-            button.disabled = false;
-            button.classList.remove('selected');
+        // Reset radio buttons
+        this.radioInputs.forEach(radio => {
+            radio.checked = false;
+            radio.disabled = false;
         });
+        this.validateBtn.disabled = false;
 
         // Reset graph if needed
         if (scenario.hasGraph) {
@@ -93,6 +96,17 @@ class CorrelationGame {
         } else {
             this.graphSection.style.display = 'none';
         }
+
+        // Afficher la source
+        let sourceText = '';
+        if (scenario.source === 'fictif') {
+            sourceText = 'exemple fictif, données inventées';
+        } else if (scenario.source === 'reel') {
+            sourceText = 'exemple inspiré d\'une situation réelle';
+        } else {
+            sourceText = scenario.source;
+        }
+        this.sourceEl.textContent = sourceText;
 
         // Scroll to score
         this.scoreEl.parentElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -124,18 +138,16 @@ class CorrelationGame {
     drawGraph(scenario) {
         if (!scenario.hasGraph) return;
 
-        this.resizeCanvas();
-        const ctx = this.canvas.getContext('2d');
-        const width = this.canvas.width;
-        const height = this.canvas.height;
-        const padding = 40;
+        const canvas = this.canvas;
+        const ctx = canvas.getContext('2d');
+        const width = canvas.width;
+        const height = canvas.height;
+        const padding = { top: 40, right: 40, bottom: 40, left: 60 };  
+        const graphWidth = width - (padding.left + padding.right);
+        const graphHeight = height - (padding.top + padding.bottom);
 
         // Effacer le canvas
         ctx.clearRect(0, 0, width, height);
-
-        // Définir la zone de dessin
-        const graphWidth = width - 2 * padding;
-        const graphHeight = height - 2 * padding;
 
         // Trouver les limites des données
         const points = scenario.points;
@@ -149,8 +161,21 @@ class CorrelationGame {
         const yRange = yMax - yMin;
 
         // Fonction pour convertir les coordonnées
-        const toCanvasX = x => padding + (x - xMin) * graphWidth / xRange;
-        const toCanvasY = y => height - (padding + (y - yMin) * graphHeight / yRange);
+        const toCanvasX = x => padding.left + (x - xMin) * graphWidth / xRange;
+        const toCanvasY = y => height - (padding.bottom + (y - yMin) * graphHeight / yRange);
+
+        // Calculer le pas pour avoir entre 2 et 10 repères
+        const calculateStep = (min, max) => {
+            const range = max - min;
+            const rawStep = range / 5; 
+            const magnitude = Math.pow(10, Math.floor(Math.log10(rawStep)));
+            const steps = [1, 2, 5, 10];
+            return steps.map(s => s * magnitude)
+                       .find(step => range / step >= 2 && range / step <= 10) || magnitude;
+        };
+
+        const xStep = calculateStep(xMin, xMax);
+        const yStep = calculateStep(yMin, yMax);
 
         // Dessiner les axes
         ctx.beginPath();
@@ -158,23 +183,49 @@ class CorrelationGame {
         ctx.lineWidth = 1;
         
         // Axe X
-        ctx.moveTo(padding, height - padding);
-        ctx.lineTo(width - padding, height - padding);
+        ctx.moveTo(padding.left, height - padding.bottom);
+        ctx.lineTo(width - padding.right, height - padding.bottom);
         
         // Axe Y
-        ctx.moveTo(padding, padding);
-        ctx.lineTo(padding, height - padding);
+        ctx.moveTo(padding.left, padding.top);
+        ctx.lineTo(padding.left, height - padding.bottom);
         ctx.stroke();
+
+        // Dessiner les repères sur l'axe X
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'top';
+        ctx.font = '12px Arial';
+        for (let x = Math.ceil(xMin / xStep) * xStep; x <= xMax; x += xStep) {
+            const xPos = toCanvasX(x);
+            ctx.beginPath();
+            ctx.moveTo(xPos, height - padding.bottom);
+            ctx.lineTo(xPos, height - padding.bottom + 5);
+            ctx.stroke();
+            ctx.fillText(x.toFixed(1), xPos, height - padding.bottom + 8);
+        }
+
+        // Dessiner les repères sur l'axe Y
+        ctx.textAlign = 'right';
+        ctx.textBaseline = 'middle';
+        for (let y = Math.ceil(yMin / yStep) * yStep; y <= yMax; y += yStep) {
+            const yPos = toCanvasY(y);
+            ctx.beginPath();
+            ctx.moveTo(padding.left - 5, yPos);
+            ctx.lineTo(padding.left, yPos);
+            ctx.stroke();
+            ctx.fillText(y.toFixed(1), padding.left - 8, yPos);
+        }
 
         // Labels des axes
         ctx.fillStyle = '#666';
         ctx.font = '14px Arial';
         ctx.textAlign = 'center';
-        ctx.fillText(scenario.xLabel, width / 2, height - 10);
+        ctx.textBaseline = 'top';
+        ctx.fillText(scenario.xLabel, width / 2, height - padding.bottom / 2);
         
         // Label Y (rotation)
         ctx.save();
-        ctx.translate(15, height / 2);
+        ctx.translate(padding.left / 4, height / 2);  
         ctx.rotate(-Math.PI / 2);
         ctx.fillText(scenario.yLabel, 0, 0);
         ctx.restore();
@@ -204,9 +255,8 @@ class CorrelationGame {
         });
     }
 
-    validateAnswer(selectedButton) {
+    validateAnswer(userAnswer) {
         const scenario = scenarios[this.currentScenarioIndex];
-        const userAnswer = selectedButton.dataset.value;
         const isCorrect = scenario.correctAnswer.includes(userAnswer);
 
         // Afficher le feedback
@@ -224,7 +274,8 @@ class CorrelationGame {
         this.scoreEl.textContent = this.score + "/" + (this.currentScenarioIndex+1);
 
         // Désactiver les choix et afficher le bouton suivant
-        this.choiceButtons.forEach(button => button.disabled = true);
+        this.radioInputs.forEach(radio => radio.disabled = true);
+        this.validateBtn.disabled = true;
         this.nextBtn.classList.remove('hidden');
 
         // Si on arrive à la dernière question, afficher la page de fin

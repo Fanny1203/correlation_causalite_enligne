@@ -15,11 +15,12 @@ Certains scénarios sont accompagnés de graphiques interactifs permettant de vi
 ## Fonctionnalités
 
 - Interface responsive
-- Visualisation des données par graphiques
+- Visualisation des données par graphiques avec axes gradués
 - Feedback immédiat sur les réponses
 - Affichage du score en temps réel
 - Option pour afficher la droite de régression
 - Page de conclusion avec bilan personnalisé
+- Indication de la source des données (fictive, réelle, ou référencée)
 
 ## Structure du projet
 
@@ -55,4 +56,5 @@ Les scénarios peuvent être facilement étendus en modifiant le fichier `data.j
 - Une description
 - La ou les bonnes réponses possibles
 - Les feedbacks pour chaque réponse
-- Optionnellement, des données pour le graphique
+- Une source (fictif, reel, ou une référence spécifique)
+- Optionnellement, des données pour le graphique avec labels des axes

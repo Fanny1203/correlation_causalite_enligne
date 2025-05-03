@@ -1,6 +1,7 @@
 const scenarios = [
     {
         id: 1,
+        source: "fictif",
         description: "On observe que plus les ventes de glaces augmentent (A), plus le nombre de noyades augmente (B).",
         xLabel: "Ventes de glaces (en milliers)",
         yLabel: "Nombre de noyades",
@@ -19,6 +20,7 @@ const scenarios = [
     },
     {
         id: 2,
+        source: "fictif",
         description: "Plus le nombre de cigognes diminue dans une région (A), plus le taux de natalité baisse (B).",
         xLabel: "Nombre de cigognes",
         yLabel: "Taux de natalité",
@@ -37,6 +39,7 @@ const scenarios = [
     },
     {
         id: 3,
+        source: "fictif",
         description: "On observe que plus une personne possède de livres chez elle (A), moins elle regarde la télévision (B).",
         hasGraph: false,
         correctAnswer: ["facteur_tiers"],
@@ -50,6 +53,7 @@ const scenarios = [
     },
     {
         id: 4,
+        source: "fictif",
         description: "Plus on dort longtemps (A), plus on se sent fatigué (B).",
         hasGraph: false,
         correctAnswer: ["causalite_B_A"],
@@ -63,6 +67,7 @@ const scenarios = [
     },
     {
         id: 5,
+        source: "fictif",
         description: "En Bordurie, plus il y a d'églises dans une ville (A), plus il y a de bars (B).",
         xLabel: "Nombre d'églises",
         yLabel: "Nombre de bars",
@@ -79,7 +84,8 @@ const scenarios = [
     },
     {
         id: 6,
-        description: "On observe que plus les gens mangent de margarine, plus les taux de divorce augmentent dans le Maine (États-Unis).",
+        source: "Cet exemple réel est tiré de https://www.tylervigen.com/",
+        description: "On observe que les années où les gens mangent plus de margarine, le taux de divorces est plus élevé dans le Maine (États-Unis).",
         hasGraph: false,
         correctAnswer: ["hasard"],
         feedbacks: {
@@ -88,10 +94,11 @@ const scenarios = [
             facteur_tiers: "Il n'y a pas de facteur tiers évident ici.",
             hasard: "Exact."
         },
-        feedback_general: "C'est une corrélation fortuite — une coïncidence statistique sans lien. Notez que c'est un exemple réel :  il est facile de trouver de tels exemples quand on a un grand nombre de données à disposition."
+        feedback_general: "C'est une corrélation fortuite — une coïncidence statistique sans lien. Notez que c'est un exemple réel :  il est facile de trouver de tels exemples quand on a un grand nombre de données à disposition. N'hésitez pas à vous amuser à en trouver sur le site https://www.tylervigen.com/spurious-correlations "
     },
     {
         id: 7,
+        source: "réel",
         description: "On observe que plus les élèves passent de temps devant la télévision (A), moins ils obtiennent de bonnes notes à l'école (B).",
         xLabel: "Temps passé devant la TV (heures/jour)",
         yLabel: "Moyenne scolaire",
@@ -108,6 +115,7 @@ const scenarios = [
     },
     {
         id: 8,
+        source: "fictif",
         description: "On observe que plus on augmente la température dans une pièce (A), plus le mercure monte dans le thermomètre (B).",
         xLabel: "Température ambiante (°C)",
         yLabel: "Niveau du mercure (mm)",
@@ -124,6 +132,7 @@ const scenarios = [
     },
     {
         id: 9,
+        source: "fictif",
         description: "On observe que plus on utilise un vélo électrique (A), plus on est en bonne santé (B).",
         xLabel: "Utilisation du vélo électrique (heures/semaine)",
         yLabel: "Score santé global",
@@ -140,6 +149,7 @@ const scenarios = [
     },
     {
         id: 10,
+        source: "fictif",
         description: "On observe que plus on consomme de café (A), plus on dort mal (B).",
         hasGraph: false,
         correctAnswer: ["causalite_B_A", "causalite_A_B", "facteur_tiers"],

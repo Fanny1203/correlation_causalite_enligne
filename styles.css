@@ -21,8 +21,8 @@ body {
 }
 
 .container {
-    max-width: 800px;
     margin: 0 auto;
+    max-width: 800px;
     padding: 2rem;
 }
 
@@ -67,6 +67,8 @@ h1 {
     max-width: 600px;
     margin: 0 auto;
     padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
 }
 
 #graph {
@@ -104,9 +106,11 @@ h1 {
 }
 
 #choices {
-    display: flex;
-    gap: 10px;
     margin: 20px 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 15px;
 }
 
 /* Par défaut (horizontal) */
@@ -183,6 +187,23 @@ h1 {
     flex: 1;
 }
 
+.radio-label {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.radio-label input[type="radio"] {
+    margin-right: 5px;
+}
+
+#validate {
+    padding: 5px 15px;
+    height: fit-content;
+    background-color: var(--secondary-color);
+    color: white;
+}
+
 #controls {
     display: flex;
     gap: 1rem;
@@ -205,12 +226,6 @@ h1 {
     opacity: 0.5;
     cursor: not-allowed;
 }
-
-#validate {
-    background-color: var(--secondary-color);
-    color: white;
-}
-
 
 #feedback, #feedback-general {
     padding: 1rem;
@@ -392,4 +407,12 @@ h1 {
 }
 .enter-arrow:hover {
     transform: scale(1.1);
+}
+
+.source-info {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 1em;
+    text-align: center;
 }
