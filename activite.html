@@ -11,7 +11,10 @@
         <main>
             <div id="score">Score: <span id="score-value"></span></div>
             <div id="scenario">
-                <p id="description"></p>
+                <div class="description-container">
+                    <p id="description"></p>
+                    <div id="illustration" class="scenario-illustration"></div>
+                </div>
                 <div id="graph-section" style="display: none;">
                     <div id="graph-container">
                         <label class="checkbox-control">
@@ -24,9 +27,8 @@
                 </div>
                 <div id="source" class="source-info"></div>
             </div>
-
             <p>Qu'en pensez-vous ?</p>
-            <div id="choices">
+            <div id="choices" class="card-choices">
                 <label class="radio-label">
                     <input type="radio" name="answer" value="causalite_A_B"> A cause B
                 </label>

@@ -22,6 +22,7 @@ class CorrelationGame {
         this.validateBtn = document.getElementById('validate');
         this.radioInputs = document.querySelectorAll('input[name="answer"]');
         this.sourceEl = document.getElementById('source');
+        this.illustrationEl = document.getElementById('illustration');
         
         // Observer pour le redimensionnement du conteneur
         this.resizeObserver = new ResizeObserver(() => {
@@ -87,6 +88,14 @@ class CorrelationGame {
             radio.disabled = false;
         });
         this.validateBtn.disabled = false;
+
+        // Afficher l'illustration
+        if (scenario.illustration) {
+            this.illustrationEl.innerHTML = `<img src="${scenario.illustration}" alt="Illustration du scénario ${scenario.id}" class="scenario-img">`;
+            this.illustrationEl.style.display = 'block';
+        } else {
+            this.illustrationEl.style.display = 'none';
+        }
 
         // Reset graph if needed
         if (scenario.hasGraph) {
