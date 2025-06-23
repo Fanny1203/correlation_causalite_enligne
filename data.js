@@ -180,5 +180,70 @@ const scenarios = [
         },
         feedback_general: "Dans la plupart des cas, il est très difficile de savoir s'il y a causalité, et dans quel sens. Ici, certaines recherches suggèrent que le café peut perturber le sommeil s'il est consommé moins de 6 heures avant le coucher. Mais d'autres études montrent que l'on boit parfois du café pour compenser un manque de sommeil. Et, certainement, des facteurs de confusion existent comme le stress qui pourrait conduire à boire du café et à moins bien dormir. Bref... c'est compliqué !",
         illustration: "images/cafe.png"
+    },
+    {
+        id: 11,
+        titre: "Cigarette et espérance de vie",
+        source: "fictif",
+        description: "Les pays où l'on fume le plus (A) sont ceux où on a la plus grande espérance de vie (B).",
+        hasGraph: false,
+        correctAnswer: ["facteur_tiers"],
+        feedbacks: {
+            causalite_A_B: "Non, fumer n'apporte aucun bénéfice direct en terme de santé !",
+            causalite_B_A: "Non, une espérance de vie plus longue ne pousse pas à fumer plus. \"Fumer plus\" est par exemple être mesuré en nombre de cigarettes par an pour éviter un biais de plus de cigarettes dans une vie plus longue.",
+            facteur_tiers: "Correct !",
+            hasard: "Ce n'est pas dû au hasard."
+        },
+        feedback_general: "Les pays où l'on fume le plus sont aussi les pays les plus riches, et c'est la richesse de ces pays qui explique l'augmentation de l'espérance de vie.",
+        illustration: "images/vieux.png"
+    },
+    {
+        id: 12,
+        titre: "Viande et espérance de vie",
+        source: "fictif",
+        description: "Les pays où l'on consomme le plus de viande (A) sont ceux où on a la plus grande espérance de vie (B).",
+        hasGraph: false,
+        correctAnswer: ["facteur_tiers"],
+        feedbacks: {
+            causalite_A_B: "Non, consommer plus de viande n'apporte pas de bénéfice direct en terme de santé. On pense au contraire actuellement que la viande rouge, notamment, augmente les risques cardiovasculaires.",
+            causalite_B_A: "Non, une espérance de vie plus longue ne pousse pas à consommer plus de viande. \"Consommer plus de viande\" est par exemple être mesuré en nombre de kilogrammes de viande consommée par an pour éviter un biais de plus de viande consommée dans une vie plus longue.",
+            facteur_tiers: "Correct !",
+            hasard: "Ce n'est pas dû au hasard."
+        },
+        feedback_general: "Les pays où l'on consomme le plus de viande sont aussi les pays les plus riches, et c'est la richesse de ces pays qui explique l'augmentation de l'espérance de vie.",
+        illustration: "images/viande.png"
+    },
+    {
+        id: 13,
+        titre: "Grands pieds et criminalité",
+        source: "fictif",
+        description: "il y a, proportionnellement, plus de grandes pointures de pieds (A) en prison (B) que dans la population générale",
+        hasGraph: false,
+        correctAnswer: ["facteur_tiers"],
+        feedbacks: {
+            causalite_A_B: "Non,  avoir de grands pieds ne rend pas criminel !",
+            causalite_B_A: "Non, être criminel ne fait pas pousser les pieds !",
+            facteur_tiers: "Correct !",
+            hasard: "Ce n'est pas dû au hasard."
+        },
+        feedback_general: "Il y a en prison plus d'adultes hommes que de femmes ou d'enfants, qui ont des pieds plus petits. C'est un facteur de confusion.",
+        illustration: "images/esclavage.png"
+    },
+    {
+        id: 14,
+        titre: "Maternelle et criminalité",
+        source: "fictif",
+        description: "Dans les villes suisses où il y a plus d'écoles maternelles (A), il y a plus de délinquance (B).",
+        hasGraph: false,
+        correctAnswer: ["facteur_tiers"],
+        feedbacks: {
+            causalite_A_B: "Non, les enfants qui vont en maternelle ne sont pas plus susceptibles de commettre des délits !",
+            causalite_B_A: "Non, les délinquants ne fabriquent pas des écoles maternelles !",
+            facteur_tiers: "Correct !",
+            hasard: "Ce n'est pas dû au hasard."
+        },
+        feedback_general: "Plus une ville est grande, plus y a d'écoles maternelles et plus il y a de délinquance. C'est un facteur de confusion.",
+        illustration: "images/ecole.png"
     }
+
 ];

@@ -8,8 +8,6 @@ class PrintableCards {
     }
 
     initSizeControls() {
-        const widthInput = document.getElementById('card-width');
-        const heightInput = document.getElementById('card-height');
         const textSizeInput = document.getElementById('text-size');
         const applyButton = document.getElementById('update-size');
 
@@ -18,11 +16,7 @@ class PrintableCards {
         document.documentElement.style.setProperty('--text-size', `${this.textSize}px`);
 
         applyButton.addEventListener('click', () => {
-            const width = widthInput.value;
-            const height = heightInput.value;
             this.textSize = textSizeInput.value;
-            document.documentElement.style.setProperty('--card-width', `${width}mm`);
-            document.documentElement.style.setProperty('--card-height', `${height}mm`);
             document.documentElement.style.setProperty('--text-size', `${this.textSize}px`);
             
             // Redessiner les graphiques avec la nouvelle taille de texte
@@ -35,20 +29,40 @@ class PrintableCards {
     }
 
     init() {
-        scenarios.forEach(scenario => {
-            this.createCard(scenario);
-        });
+        // Créer les cartes par groupe de 4
+        for (let i = 0; i < scenarios.length; i += 4) {
+            const group = scenarios.slice(i, i + 4);
+            
+            // Créer 4 questions
+            group.forEach(scenario => {
+                this.createQuestionCard(scenario);
+            });
+
+            // Créer 4 réponses en inversant l'ordre deux par deux
+            for (let j = 0; j < group.length; j += 2) {
+                // Vérifier s'il reste au moins 2 éléments
+                if (j + 1 < group.length) {
+                    // Créer les réponses dans l'ordre inverse
+                    this.createAnswerCard(group[j + 1]);
+                    this.createAnswerCard(group[j]);
+                } else {
+                    // S'il reste un seul élément
+                    this.createAnswerCard(group[j]);
+                }
+            }
+        }
     }
 
-    createCard(scenario) {
+    createQuestionCard(scenario) {
         // Cloner le template
         const card = this.template.content.cloneNode(true);
+        const cardElement = card.querySelector('.card');
+        
+        // Supprimer le verso
+        cardElement.querySelector('.card-back').remove();
         
         // Remplir le recto
         this.fillCardFront(card, scenario);
-        
-        // Remplir le verso
-        this.fillCardBack(card, scenario);
 
         // Ajouter la carte au conteneur
         this.container.appendChild(card);
@@ -57,6 +71,21 @@ class PrintableCards {
         if (scenario.hasGraph) {
             this.drawGraph(scenario);
         }
+    }
+
+    createAnswerCard(scenario) {
+        // Cloner le template
+        const card = this.template.content.cloneNode(true);
+        const cardElement = card.querySelector('.card');
+        
+        // Supprimer le recto
+        cardElement.querySelector('.card-front').remove();
+        
+        // Remplir le verso
+        this.fillCardBack(card, scenario);
+
+        // Ajouter la carte au conteneur
+        this.container.appendChild(card);
     }
 
     fillCardFront(card, scenario) {

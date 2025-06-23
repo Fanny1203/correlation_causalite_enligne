@@ -2,10 +2,9 @@ class CorrelationGame {
     constructor() {
         this.currentScenarioIndex = 0;
         this.score = 0;
-        this.initElements();
-        this.initEventListeners();
-        this.initTooltips();
-        this.loadScenario();
+        this.selectedScenarios = [];
+        this.init();
+        this.numQuestion = 1;
     }
 
     initElements() {
@@ -26,9 +25,9 @@ class CorrelationGame {
         
         // Observer pour le redimensionnement du conteneur
         this.resizeObserver = new ResizeObserver(() => {
-            if (scenarios[this.currentScenarioIndex].hasGraph) {
+            if (this.selectedScenarios[this.currentScenarioIndex].hasGraph) {
                 this.resizeCanvas();
-                this.drawGraph(scenarios[this.currentScenarioIndex]);
+                this.drawGraph(this.selectedScenarios[this.currentScenarioIndex]);
             }
         });
         this.resizeObserver.observe(this.graphContainer);
@@ -44,8 +43,8 @@ class CorrelationGame {
         this.nextBtn.addEventListener('click', () => this.nextScenario());
         this.endBtn.addEventListener('click', () => this.endScenario());
         this.showRegressionCheckbox.addEventListener('change', () => {
-            if (scenarios[this.currentScenarioIndex].hasGraph) {
-                this.drawGraph(scenarios[this.currentScenarioIndex]);
+            if (this.selectedScenarios[this.currentScenarioIndex].hasGraph) {
+                this.drawGraph(this.selectedScenarios[this.currentScenarioIndex]);
             }
         });
 
@@ -59,7 +58,7 @@ class CorrelationGame {
     }
 
     endScenario() {
-        window.location.href = "conclusion.html?score=" + this.score;
+        window.location.href = "conclusion.html?score=" + this.score+"&total="+this.selectedScenarios.length;
     }
 
     initTooltips() {
@@ -71,9 +70,37 @@ class CorrelationGame {
         });
     }
 
+    async init() {
+        try {
+            await this.loadSelectedScenarios();
+            this.initElements();
+            this.initEventListeners();
+            this.initTooltips();
+            this.loadScenario();
+        } catch (error) {
+            console.error('Erreur lors de l\'initialisation:', error);
+        }
+    }
+
+    async loadSelectedScenarios() {
+        try {
+            // Attendre un court instant pour s'assurer que data.js est chargé
+            await delay(100);
+            const response = await fetch('scenarios_selectionnes.json');
+            const data = await response.json();
+            this.selectedScenarios = data.scenarioSelectionnes.map(id => scenarios.find(s => s.id === id));
+            if (this.selectedScenarios.some(s => s === undefined)) {
+                throw new Error('Certains scénarios n\'ont pas été trouvés');
+            }
+        } catch (error) {
+            console.error('Erreur lors du chargement des scénarios sélectionnés:', error);
+            this.selectedScenarios = scenarios; // Fallback sur tous les scénarios en cas d'erreur
+        }
+    }
+
     loadScenario() {
-        const scenario = scenarios[this.currentScenarioIndex];
-        this.descriptionEl.innerHTML = "<u>Question " + scenario.id + " : </u><br/>" + scenario.description;
+        const scenario = this.selectedScenarios[this.currentScenarioIndex];
+        this.descriptionEl.innerHTML = "<u>Question " + this.numQuestion +" / " + this.selectedScenarios.length + " : </u><br/>" + scenario.description;
         
         // Reset UI state
         this.feedbackEl.classList.add('hidden');
@@ -265,7 +292,7 @@ class CorrelationGame {
     }
 
     validateAnswer(userAnswer) {
-        const scenario = scenarios[this.currentScenarioIndex];
+        const scenario = this.selectedScenarios[this.currentScenarioIndex];
         const isCorrect = scenario.correctAnswer.includes(userAnswer);
 
         // Afficher le feedback
@@ -288,7 +315,7 @@ class CorrelationGame {
         this.nextBtn.classList.remove('hidden');
 
         // Si on arrive à la dernière question, afficher la page de fin
-        if (this.currentScenarioIndex === scenarios.length - 1) {
+        if (this.currentScenarioIndex === this.selectedScenarios.length - 1) {
             this.nextBtn.classList.add('hidden');
             this.endBtn.classList.remove('hidden');
         }
@@ -298,7 +325,8 @@ class CorrelationGame {
     }
 
     nextScenario() {
-        this.currentScenarioIndex = (this.currentScenarioIndex + 1) % scenarios.length;
+        this.currentScenarioIndex = (this.currentScenarioIndex + 1) % this.selectedScenarios.length;
+        this.numQuestion++;
         this.loadScenario();
     }
 }
@@ -307,3 +335,8 @@ class CorrelationGame {
 window.addEventListener('load', () => {
     new CorrelationGame();
 });
+
+// Fonction utilitaire pour attendre un délai
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}

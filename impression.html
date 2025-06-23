@@ -3,28 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="print-color-adjust" content="exact">
+    <meta name="color-adjust" content="exact">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="date=no">
+    <meta name="format-detection" content="address=no">
+    <meta name="format-detection" content="email=no">
     <title>Cartes à imprimer - Corrélation n'est pas causalité</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="print.css">
 </head>
 <body class="print-page">
     <div class="print-instructions">
+        <h1>Instructions d'impression</h1>
+        <ol>
+            <li>Format : A4</li>
+            <li>Orientation : Portrait</li>
+            <li>Impression recto-verso sur le bord court</li>
+            <li>Marges personnalisées minimales et symétriques (5mm ou 0.2 pouces partout)</li>
+            <li>Échelle : 100% (pas d'ajustement à la page)</li>
+        </ol>
+
         <div class="size-controls">
+            <h2>Ajustements (si nécessaire)</h2>
             <div class="control-group">
                 <label>
-                    <input type="number" id="card-width" value="95" min="50" max="150" step="5">
-                    mm (largeur)
-                </label>
-                <label>
-                    <input type="number" id="card-height" value="126" min="50" max="200" step="5">
-                    mm (hauteur)
-                </label>
-                <label>
-                    <input type="number" id="text-size" value="12" min="12" max="24" step="1">
+                    <input type="number" id="text-size" value="12" min="10" max="16" step="1">
                     px (taille du texte)
                 </label>
                 <button id="update-size">Mettre à jour</button>
             </div>
+            <p class="note">Note : Les dimensions des cartes sont optimisées pour l'impression A4 (100mm × 143.5mm)</p>
         </div>
     </div>
 

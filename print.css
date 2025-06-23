@@ -1,22 +1,52 @@
 :root {
-    --card-width: 95mm;   /* Pour 2 colonnes sur A4 */
-    --card-height: 126mm; /* Pour 2 lignes sur A4 */
+    --card-width: 100mm;  /* Pour 2 colonnes sur A4 avec marges de 5mm */
+    --card-height: 143mm; /* Pour 2 lignes sur A4 avec marges de 5mm */
     --text-size: 12px;    /* Default text size */
 }
 
 /* Styles communs */
 .print-page {
     background-color: white;
-    padding: 2rem;
+    padding: 5mm;
+    max-width: 210mm;
+    margin: 0 auto;
 }
 
 .print-instructions {
     max-width: 800px;
     margin: 0 auto 2rem;
-    padding: 1rem;
+    padding: 1.5rem;
     background: white;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.print-instructions h1 {
+    margin: 0 0 1rem;
+    color: #333;
+    font-size: 1.5rem;
+}
+
+.print-instructions h2 {
+    margin: 1.5rem 0 1rem;
+    color: #666;
+    font-size: 1.2rem;
+}
+
+.print-instructions ol {
+    margin: 0;
+    padding-left: 1.5rem;
+}
+
+.print-instructions li {
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+.print-instructions .note {
+    margin-top: 1rem;
+    color: #666;
+    font-style: italic;
 }
 
 .print-instructions h1 {
@@ -35,19 +65,18 @@
 }
 
 #cards-container {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, var(--card-width));
     gap: 0;
-    align-items: center;
     padding: 0;
+    margin: 0 auto;
 }
 
 .card {
-    width: calc(var(--card-width) * 2);
+    width: var(--card-width);
     height: var(--card-height);
     margin: 0;
     background: white;
-    display: flex;
     page-break-inside: avoid;
     font-size: var(--text-size);
 }
@@ -65,7 +94,7 @@
     position: relative;
     width: 100%;
     height: 100%;
-    border: 1rem solid;
+    border: 1.2rem solid;
     border-image: linear-gradient(45deg, #0066cc, #3399ff) 1;
     background: white;
     box-sizing: border-box;
@@ -73,10 +102,10 @@
 
 .card-corner.top-left {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 120px;
-    height: 120px;
+    top: -1.2rem;
+    left: -1.2rem;
+    width: 140px;
+    height: 140px;
     background: linear-gradient(45deg, #0066cc, #3399ff);
     clip-path: polygon(0 0, 0 100%, 100% 0);
     -webkit-print-color-adjust: exact;
@@ -86,10 +115,10 @@
 
 .card-illustration {
     position: absolute;
-    top: 0px;
-    left: 0px;
-    width: 60px;
-    height: 60px;
+    top: 0.5rem;
+    left: 0.5rem;
+    width: 50px;
+    height: 50px;
     z-index: 2;
 }
 
@@ -155,7 +184,7 @@
     display: flex;
     flex-direction: column;
     padding: 2rem;
-    border: 1px solid #ddd;
+    border: 1px solid #fdfbfb;
 }
 
 .card-answer {
@@ -234,8 +263,25 @@
 }
 
 /* Masquer les instructions à l'impression */
+@page {
+    size: A4 portrait;
+    margin: 5mm;
+}
+
 @media print {
     .print-instructions {
         display: none;
+    }
+
+    .print-page {
+        padding: 0;
+        margin: 0;
+        width: 210mm;
+    }
+
+    /* Forcer l'arrière-plan blanc à l'impression */
+    * {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
     }
 }
